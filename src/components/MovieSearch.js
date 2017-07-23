@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 
+// Redux
+import { connect } from 'react-redux';
+import * as movieActions from '../store/movies/actions';
+
 class MovieSearch extends Component {
   constructor(props) {
     super(props);
@@ -20,15 +24,14 @@ class MovieSearch extends Component {
     );
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ isLoading: false });
+  }
+
   getMovies = () => {
     this.setState({ isLoading: true });
-
-    // This probably where you would have an `ajax` call
-    setTimeout(() => {
-      // Completed of async action, set loading state back
-      this.setState({ isLoading: false });
-    }, 2000);
+    this.props.dispatch(movieActions.fetchMovies());
   };
 }
 
-export default MovieSearch;
+export default connect()(MovieSearch);

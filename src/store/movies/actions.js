@@ -4,7 +4,9 @@ import libraryService from '../../services/library';
 export function fetchMovies() {
   return async (dispatch, getState) => {
     try {
-      dispatch({ type: types.MOVIES_FETCHED });
+      const movies = await libraryService.getMovies();
+
+      dispatch({ type: types.MOVIES_FETCHED, movies });
     } catch (error) {
       console.error(error);
     }
