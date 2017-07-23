@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-// import libraryService from '../../services/library';
+import libraryService from '../../services/library';
 
 export function fetchMovies() {
   return async (dispatch, getState) => {
