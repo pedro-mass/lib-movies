@@ -1,20 +1,66 @@
-const LIBRARY_ENDPOINT = '';
+import _ from 'lodash';
+import axios from 'axios';
+
+const LIBRARY_ENDPOINT =
+  'https://catalog.ccpl.org/client/en_US/default/search/results?qf=FORMAT%09Format%09VIDEODISC%09Video+disc';
 
 class LibraryService {
   async getMovies() {
-    return [
-      {
-        title: 'Drown [DVD].',
-        thumbnailUrl:
-          'https://secure.syndetics.com/index.aspx?type=xw12&client=843-805-6801&upc=712267341528&oclc=&isbn=/MC.GIF'
-      },
-      {
-        title: 'Justice League Dark [DVD] / Warner Bros. Animation.',
-        thumbnailUrl:
-          'https://secure.syndetics.com/index.aspx?type=xw12&client=843-805-6801&upc=883929487264&oclc=&isbn=/MC.GIF'
-      }
-    ];
+    try {
+      const response = await axios({
+        method: 'GET',
+        crossDomain: true,
+        url: LIBRARY_ENDPOINT,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const movies = this._parseHtmlResponse(response);
+
+      return movies;
+    } catch (err) {
+      console.error(err);
+
+      return [];
+    }
   }
+
+  _parseHtmlResponse(response) {
+    const selectors = {
+      // gets the big div holding everything
+      results: '.results_cell'
+    };
+
+    const rootElement = new DOMParser().parseFromString(
+      response.data,
+      'text/html'
+    );
+
+    // get the results
+    const results = rootElement.querySelectorAll(selectors.results);
+
+    return _.map(results, resultNode => {
+      return this._getMovieObject(resultNode);
+    });
+  }
+
+  _getMovieObject = htmlNode => {
+    const selectors = {
+      title: 'div.displayDetailLink > a',
+      author: 'div.displayElementText.highlightMe.INITIAL_AUTHOR_SRCH',
+      publicationDate: 'div.displayElementText.highlightMe.PUBDATE'
+    };
+
+    let result = {};
+
+    _.forEach(selectors, (selector, key) => {
+      result[key] = htmlNode.querySelector(selector).innerHTML.trim();
+    });
+
+    return result;
+  };
 }
 
 export default new LibraryService();
