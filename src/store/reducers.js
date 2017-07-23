@@ -1,3 +1,3 @@
-import books from './books/reducer';
+import movies from './movies/reducer';
 
-export { books };
+export { movies };
