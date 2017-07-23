@@ -3,19 +3,12 @@ import { Button } from 'react-bootstrap';
 
 // Redux
 import { connect } from 'react-redux';
-import * as movieActions from '../store/movies/actions';
+import * as actions from '../store/movies/actions';
+import * as selectors from '../store/movies/reducer';
 
 class MovieSearch extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoading: false
-    };
-  }
-
   render() {
-    const { isLoading } = this.state;
+    const { isLoading } = this.props;
 
     return (
       <Button bsStyle="primary" disabled={isLoading} onClick={this.getMovies}>
@@ -24,14 +17,15 @@ class MovieSearch extends Component {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ isLoading: false });
-  }
-
   getMovies = () => {
-    this.setState({ isLoading: true });
-    this.props.dispatch(movieActions.fetchMovies());
+    this.props.dispatch(actions.fetchMovies());
   };
 }
 
-export default connect()(MovieSearch);
+const mapStateToProps = state => {
+  return {
+    isLoading: selectors.isFetching(state)
+  };
+};
+
+export default connect(mapStateToProps)(MovieSearch);
