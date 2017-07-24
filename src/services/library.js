@@ -46,8 +46,10 @@ class LibraryService {
     });
   }
 
+  // Given an HTML node, parse out the relevant fields
   _getMovieObject = htmlNode => {
     const selectors = {
+      id: 'input.results_chkbox.DISCOVERY_ALL.listItem.bulkActionCheckbox',
       title: 'div.displayDetailLink > a',
       author: 'div.displayElementText.highlightMe.INITIAL_AUTHOR_SRCH',
       publicationDate: 'div.displayElementText.highlightMe.PUBDATE'
@@ -58,6 +60,9 @@ class LibraryService {
     _.forEach(selectors, (selector, key) => {
       result[key] = htmlNode.querySelector(selector).innerHTML.trim();
     });
+
+    // special case for the ID
+    result.id = htmlNode.querySelector(selectors.id).value;
 
     return result;
   };

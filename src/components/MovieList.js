@@ -30,8 +30,6 @@ class MovieList extends Component {
   }
 
   renderMovies = () => {
-    console.log('props', this.props);
-
     return _.map(this.props.movies, movie => {
       return (
         <ListGroupItem key={movie.title}>
@@ -43,10 +41,8 @@ class MovieList extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('state:', state);
-
   return {
-    movies: selectors.getMovies(state)
+    movies: selectors.getMoviesById(state)
   };
 };
 
