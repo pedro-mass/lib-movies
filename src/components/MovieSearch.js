@@ -11,9 +11,11 @@ class MovieSearch extends Component {
     const { isLoading } = this.props;
 
     return (
-      <Button bsStyle="primary" disabled={isLoading} onClick={this.getMovies}>
-        {isLoading ? 'Retrieving...' : 'Get Movies'}
-      </Button>
+      <div className="MovieSearch">
+        <Button bsStyle="primary" disabled={isLoading} onClick={this.getMovies}>
+          {isLoading ? 'Retrieving...' : 'Get Movies'}
+        </Button>
+      </div>
     );
   }
 

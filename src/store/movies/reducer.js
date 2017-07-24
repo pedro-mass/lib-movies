@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 
 const initialState = {
-  movies: [],
+  movieList: [],
   isFetching: false
 };
 
@@ -10,7 +10,7 @@ export default function reduce(state = initialState, action = {}) {
     case types.FETCH_MOVIES:
       return { ...state, isFetching: true };
     case types.MOVIES_FETCHED:
-      return { ...state, isFetching: false, movies: action.payload };
+      return { ...state, isFetching: false, movieList: action.payload };
     default:
       return state;
   }
@@ -20,4 +20,8 @@ export default function reduce(state = initialState, action = {}) {
 
 export function isFetching(state) {
   return state.movies.isFetching;
+}
+
+export function getMovies(state) {
+  return state.movies.movieList;
 }
