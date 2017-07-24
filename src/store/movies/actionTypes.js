@@ -1,2 +1,5 @@
 export const FETCH_MOVIES = 'movies.FETCHING_MOVIES';
 export const MOVIES_FETCHED = 'movies.MOVIES_FETCHED';
+
+export const FETCH_MOVIE_RATINGS = 'movies.FETCH_MOVIE_RATINGS';
+export const MOVIE_RATINGS_FETCHED = 'movies.MOVIE_RATINGS_FETCHED';

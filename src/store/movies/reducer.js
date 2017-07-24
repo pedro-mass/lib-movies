@@ -2,7 +2,8 @@ import * as types from './actionTypes';
 
 const initialState = {
   moviesById: undefined,
-  isFetching: false
+  isFetching: false,
+  isGettingRating: false
 };
 
 export default function reduce(state = initialState, action = {}) {
@@ -11,6 +12,14 @@ export default function reduce(state = initialState, action = {}) {
       return { ...state, isFetching: true };
     case types.MOVIES_FETCHED:
       return { ...state, isFetching: false, moviesById: action.payload };
+    case types.FETCH_MOVIE_RATINGS:
+      return { ...state, isGettingRating: true };
+    case types.MOVIE_RATINGS_FETCHED:
+      return {
+        ...state,
+        isGettingRating: false,
+        moviesById: { ...state.moviesById, [action.payload.id]: action.payload }
+      };
     default:
       return state;
   }

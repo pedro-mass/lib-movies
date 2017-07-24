@@ -7,6 +7,10 @@ import * as actions from '../store/movies/actions';
 import * as selectors from '../store/movies/reducer';
 
 class MovieSearch extends Component {
+  componentDidMount() {
+    this.props.dispatch(actions.fetchMovies());
+  }
+
   render() {
     const { isLoading } = this.props;
 
