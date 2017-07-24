@@ -2,6 +2,8 @@ import _ from 'lodash';
 import * as types from './actionTypes';
 import libraryService from '../../services/library';
 import imdbService from '../../services/imdb';
+import rottenTomatoesService from '../../services/rottenTomatos';
+import metacriticService from '../../services/metacritic';
 
 export function fetchMovies() {
   return async (dispatch, getState) => {
@@ -33,7 +35,16 @@ export function getMovieRatings(movie) {
       );
 
       // RottenTomatoes
+      thisMovie.scores.rottenTomatoes = await rottenTomatoesService.getScore(
+        movie.title,
+        movie.publicationDate
+      );
+
       // MetaCritic
+      thisMovie.scores.metacritic = await metacriticService.getScore(
+        movie.title,
+        movie.publicationDate
+      );
 
       dispatch({ type: types.MOVIE_RATINGS_FETCHED, payload: thisMovie });
     } catch (err) {

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import './MovieList.css';
-import { ListGroup, ListGroupItem, Col } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, Col, Button } from 'react-bootstrap';
 
 // redux
 import { connect } from 'react-redux';
@@ -25,7 +25,7 @@ class MovieList extends Component {
 
   renderLoading() {
     return (
-      <div className="MovieList">
+      <div className="MovieList text-center">
         <p>Please hit the 'Get Movies' button.</p>
       </div>
     );
@@ -34,27 +34,34 @@ class MovieList extends Component {
   renderMovies = () => {
     return _.map(this.props.movies, movie => {
       return (
-        <ListGroupItem
-          key={movie.title}
-          onClick={() => this.props.dispatch(actions.getMovieRatings(movie))}
-        >
+        <ListGroupItem key={movie.title}>
           {movie.title} [{movie.publicationDate}]
-          {this.renderImdb(movie)}
+          <div className="movie-ratings pull-right">
+            {this.renderRatings(movie)}
+          </div>
         </ListGroupItem>
       );
     });
   };
 
-  renderImdb(movie) {
-    if (!movie.scores || movie.scores.imdb === undefined) {
-      return '';
+  renderRatings(movie) {
+    if (!movie.scores) {
+      return (
+        <Button
+          onClick={() => this.props.dispatch(actions.getMovieRatings(movie))}
+        >
+          Get Ratings
+        </Button>
+      );
     }
 
-    return (
-      <span>
-        IMDB: {movie.scores ? movie.scores.imdb : ''}
-      </span>
-    );
+    return _.map(movie.scores, (score, source) => {
+      return (
+        <span key={source} className="movie-rating">
+          {source}: {score}
+        </span>
+      );
+    });
   }
 }
 

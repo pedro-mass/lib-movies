@@ -1,3 +1,7 @@
 .MovieList {
   margin-top: 1rem;
 }
+
+.MovieList .movie-rating {
+  margin-right: 10px;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import './MovieSearch.css';
 
 // Redux
 import { connect } from 'react-redux';
