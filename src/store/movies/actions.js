@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import * as types from './actionTypes';
 import libraryService from '../../services/library';
-import imdbService from '../../services/imdb';
-import rottenTomatoesService from '../../services/rottenTomatos';
-import metacriticService from '../../services/metacritic';
+import omdbService from '../../services/omdb';
 
 export function fetchMovies() {
   return async (dispatch, getState) => {
@@ -25,26 +23,9 @@ export function getMovieRatings(movie) {
     try {
       dispatch({ type: types.FETCH_MOVIE_RATINGS });
 
-      let thisMovie = { ...movie };
-      thisMovie.scores = {};
-
-      // IMDB
-      thisMovie.scores.imdb = await imdbService.getScore(
-        movie.title,
-        movie.publicationDate
-      );
-
-      // RottenTomatoes
-      thisMovie.scores.rottenTomatoes = await rottenTomatoesService.getScore(
-        movie.title,
-        movie.publicationDate
-      );
-
-      // MetaCritic
-      thisMovie.scores.metacritic = await metacriticService.getScore(
-        movie.title,
-        movie.publicationDate
-      );
+      // OMDB
+      let movieData = await omdbService.getData(movie.title);
+      let thisMovie = { ...movie, ...movieData };
 
       dispatch({ type: types.MOVIE_RATINGS_FETCHED, payload: thisMovie });
     } catch (err) {

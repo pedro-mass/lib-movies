@@ -35,7 +35,7 @@ class MovieList extends Component {
     return _.map(this.props.movies, movie => {
       return (
         <ListGroupItem key={movie.title}>
-          {movie.title} [{movie.publicationDate}]
+          {movie.title} [{movie.year}]
           <div className="movie-ratings pull-right">
             {this.renderRatings(movie)}
           </div>
@@ -45,7 +45,7 @@ class MovieList extends Component {
   };
 
   renderRatings(movie) {
-    if (!movie.scores) {
+    if (!movie.ratings) {
       return (
         <Button
           onClick={() => this.props.dispatch(actions.getMovieRatings(movie))}
@@ -55,10 +55,10 @@ class MovieList extends Component {
       );
     }
 
-    return _.map(movie.scores, (score, source) => {
+    return _.map(movie.ratings, rating => {
       return (
-        <span key={source} className="movie-rating">
-          {source}: {score}
+        <span key={rating.source} className="movie-rating">
+          {rating.source}: {rating.value}
         </span>
       );
     });

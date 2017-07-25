@@ -52,7 +52,7 @@ class LibraryService {
       id: 'input.results_chkbox.DISCOVERY_ALL.listItem.bulkActionCheckbox',
       title: 'div.displayDetailLink > a',
       author: 'div.displayElementText.highlightMe.INITIAL_AUTHOR_SRCH',
-      publicationDate: 'div.displayElementText.highlightMe.PUBDATE'
+      year: 'div.displayElementText.highlightMe.PUBDATE'
     };
 
     let result = {};
@@ -64,8 +64,36 @@ class LibraryService {
     // special case for the ID
     result.id = htmlNode.querySelector(selectors.id).value;
 
+    result.title = this._cleanTitle(result.title);
+
     return result;
   };
+
+  _cleanTitle(title) {
+    console.log('title', title);
+
+    // remove Season #
+    title = this._substringOut(title, '. Season ');
+
+    // remove everything after /
+    title = this._substringOut(title, ' / ');
+
+    // remove [DVD]
+    title = title.replace('[DVD]', '');
+
+    return title.trim();
+  }
+
+  _substringOut(title, searchString) {
+    let result = title;
+    let index = title.indexOf(searchString);
+
+    if (index >= 0) {
+      result = title.substring(0, index);
+    }
+
+    return result;
+  }
 }
 
 export default new LibraryService();
