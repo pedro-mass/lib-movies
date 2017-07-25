@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import './MovieList.css';
-import { ListGroup, ListGroupItem, Col, Button } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, Col, Button, Image } from 'react-bootstrap';
 
 // redux
 import { connect } from 'react-redux';
@@ -35,7 +35,11 @@ class MovieList extends Component {
     return _.map(this.props.movies, movie => {
       return (
         <ListGroupItem key={movie.title}>
-          {movie.title} [{movie.year}]
+          <span>
+            {this.renderThumbnail(movie)}
+            {movie.title} [{movie.year}]
+          </span>
+
           <div className="movie-ratings pull-right">
             {this.renderRatings(movie)}
           </div>
@@ -43,6 +47,16 @@ class MovieList extends Component {
       );
     });
   };
+
+  renderThumbnail(movie) {
+    if (!movie || !movie.poster) {
+      return;
+    }
+
+    return (
+      <Image src={movie.poster} thumbnail className="MovieList-thumbnail" />
+    );
+  }
 
   renderRatings(movie) {
     if (!movie.ratings) {

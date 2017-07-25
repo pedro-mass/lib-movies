@@ -70,8 +70,6 @@ class LibraryService {
   };
 
   _cleanTitle(title) {
-    console.log('title', title);
-
     // remove Season #
     title = this._substringOut(title, '. Season ');
 

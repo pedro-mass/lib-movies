@@ -5,3 +5,7 @@
 .MovieList .movie-rating {
   margin-right: 10px;
 }
+
+.MovieList-thumbnail {
+  max-height: 100px;
+}
