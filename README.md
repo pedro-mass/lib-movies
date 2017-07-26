@@ -4,16 +4,16 @@
 - create file: src/secret.js
   - export an object that has similar structure
 
-```javascript
-let secret = {};
+    ```javascript
+    let secret = {};
 
-// http://www.omdbapi.com/
-secret.omdb = {
-  apiKey: 'YOUR_KEY'
-};
+    // http://www.omdbapi.com/
+    secret.omdb = {
+      apiKey: 'YOUR_KEY'
+    };
 
-export default secret;
-```
+    export default secret;
+    ```
 
 
 
